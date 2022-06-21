@@ -17,6 +17,7 @@ import useLogin from '@/composables/useLogin'
 import { ref } from '@vue/reactivity';
 export default {
     setup(){
+        const router = useRouter()
         const { login, error, isPending } = useLogin();
 
         const email = ref(null)
@@ -26,6 +27,7 @@ export default {
             const res = await login(email.value, password.value)
             if(!error.value){
                 console.log('login successful')
+                router.push({ name: 'home' })
             }
         }
 
