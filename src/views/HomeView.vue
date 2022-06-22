@@ -1,18 +1,16 @@
 <template>
   <div class="home">
-    <p>Homepage</p>
-    <div v-if="error" class="error">Could not fetch data {{ error }}</div>
-    <div v-if="documents">
-      <div v-for="doc in documents" :key="doc.id">{{doc.title}}</div>
-    </div>
+    <ListView :playlists = "documents"/>
   </div>
 </template>
 
 <script>
 import getCollection from '../composables/getCollection'
+import ListView from '../components/ListView.vue'
 
 export default {
   name: 'HomeView',
+  components: { ListView },
   setup() {
     const { documents, error } = getCollection('playlists')
 
