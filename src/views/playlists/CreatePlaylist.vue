@@ -9,34 +9,54 @@
       <input type="file" @change="handleChange">
 
       <div class="error">{{fileError}}</div>
-      <button>Create</button>
+      <button v-if="!isPending">Create</button>
+      <button v-else disabled>Saving...</button>
   </form>
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
 import useStorage from '../../composables/useStorage'
+import useCollection from '../../composables/useCollection'
+import getUser from '../../composables/getUser'
+import { timestamp } from '@/firebase/config'
 export default {
     setup(){
         const title = ref('')
         const description = ref('')
         const file = ref(null)
         const fileError = ref(null)
+        const isPending = ref(false)
+
         const { filePath, url, uploadImage } = useStorage()
+        const { addDoc, error } = useCollection('playlists')
+        const { user } = getUser()
 
         const handleSubmit = async() => {
             if(file.value){
-                console.log(file.value)
+                //local ispending used
+                isPending.value = true
                 await uploadImage(file.value)
+                await addDoc({
+                    title: title.value,
+                    description: description.value,
+                    userId: user.value.uid,
+                    userName: user.value.displayName,
+                    coverUrl: url.value,
+                    filePath: filePath.value,
+                    songs: [],
+                    createdAt: timestamp()
+                })
                 console.log('Image Uploaded Url: ',url.value)
-                
+                isPending.value = false
+                if(!error.value){
+                    console.log('playlist added')
+                }  
             }
-            
         }
 
         //allowed file types
         const types = ['image/png', 'image/jpeg']
-
 
         const handleChange = (e) => {
             const selected = e.target.files[0]
@@ -49,12 +69,10 @@ export default {
             }else{
                 file.value = null
                 fileError.value = 'Please select an img file(png or jpeg)'
-            }
-            
+            }           
         }
-        return { title, description, handleSubmit, handleChange, fileError}
+        return { title, description, handleSubmit, handleChange, fileError, isPending }
     }
-
 }
 </script>
 

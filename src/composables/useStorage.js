@@ -2,7 +2,6 @@ import { projectStorage } from '../firebase/config'
 import { ref } from '@vue/reactivity'
 import getUser from './getUser'
 
-
 const { user } = getUser()
 
 const useStorage = () => {
@@ -17,7 +16,7 @@ const useStorage = () => {
 
         try {
             const res = await storageRef.put(file)
-            url.value = res.ref.getDownloadURL()
+            url.value = await res.ref.getDownloadURL()
         } catch (err) {
             console.log(err.message)
             error.value = err.message
