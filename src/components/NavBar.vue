@@ -7,7 +7,8 @@
         </h3>
         <div class="links">
             <div v-if="user">
-                 <button @click="handleLogout">Logout</button>
+                <router-link :to="{name: 'createPlaylist'}">Create Playlist</router-link>
+                <button @click="handleLogout">Logout</button>
             </div>
             <div v-else>
                  <router-link :to="{name: 'login'}" class="btn" >Login</router-link>
