@@ -20,13 +20,17 @@ import useStorage from '../../composables/useStorage'
 import useCollection from '../../composables/useCollection'
 import getUser from '../../composables/getUser'
 import { timestamp } from '@/firebase/config'
+import { useRouter } from 'vue-router'
+
 export default {
+    
     setup(){
         const title = ref('')
         const description = ref('')
         const file = ref(null)
         const fileError = ref(null)
         const isPending = ref(false)
+        const router = useRouter()
 
         const { filePath, url, uploadImage } = useStorage()
         const { addDoc, error } = useCollection('playlists')
@@ -50,7 +54,8 @@ export default {
                 console.log('Image Uploaded Url: ',url.value)
                 isPending.value = false
                 if(!error.value){
-                    console.log('playlist added')
+                    //add params property coz last bit of url is variable
+                    router.push({ name: 'PlaylistDetails', params: {} })
                 }  
             }
         }
