@@ -59,7 +59,6 @@ export default {
                 }  
             }
         }
-
         //allowed file types
         const types = ['image/png', 'image/jpeg']
 
