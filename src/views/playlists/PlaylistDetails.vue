@@ -30,6 +30,8 @@ import { computed } from '@vue/runtime-core'
 import getDocument from '../../composables/getDocument'
 import getUser from '../../composables/getUser'
 import useDocument from '../../composables/useDocument'
+import useStorage from '../../composables/useStorage'
+import { useRouter } from 'vue-router'
 export default {
     props: ['id'],
     setup(props){
@@ -37,13 +39,18 @@ export default {
       const { document: playlist, error } = getDocument('playlists', props.id)
       const { user } = getUser()
       const { deleteDoc, isPending } = useDocument('playlists', props.id)
+      const { deleteImage } = useStorage()
+      const router = useRouter()
 
       const ownership = computed(() => {
         return playlist.value && user.value && user.value.uid == playlist.value.userId
       })
 
       const handleDelete = async() => {
+        await deleteImage(playlist.value.filePath)
         await deleteDoc()
+        router.push({name: 'home'})
+
       }
 
       return{ playlist, error, ownership, handleDelete }
