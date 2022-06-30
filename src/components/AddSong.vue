@@ -30,7 +30,6 @@ export default {
             await updateDoc({
                 songs: [...props.playlist.songs, newSong]
             })
-
             title.value = ''
             artist.value = ''
         }
