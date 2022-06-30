@@ -18,6 +18,7 @@
     <!-- song-list -->
     <div class="song-list">
         <p>song list here</p>
+        <AddSong v-if="ownership" :playlist="playlist"/>
     </div>
 
   </div>
@@ -28,12 +29,14 @@
 <script>
 import { computed } from '@vue/runtime-core'
 import getDocument from '../../composables/getDocument'
+import AddSong from '../../components/AddSong.vue'
 import getUser from '../../composables/getUser'
 import useDocument from '../../composables/useDocument'
 import useStorage from '../../composables/useStorage'
 import { useRouter } from 'vue-router'
 export default {
     props: ['id'],
+    components: { AddSong },
     setup(props){
       //assigning a diff name to document using :
       const { document: playlist, error } = getDocument('playlists', props.id)
