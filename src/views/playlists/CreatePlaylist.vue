@@ -41,7 +41,7 @@ export default {
                 //local ispending used
                 isPending.value = true
                 await uploadImage(file.value)
-                await addDoc({
+                const res = await addDoc({
                     title: title.value,
                     description: description.value,
                     userId: user.value.uid,
@@ -55,7 +55,7 @@ export default {
                 isPending.value = false
                 if(!error.value){
                     //add params property coz last bit of url is variable
-                    router.push({ name: 'PlaylistDetails', params: {} })
+                    router.push({ name: 'PlaylistDetails', params: {id: res.id} })
                 }  
             }
         }
