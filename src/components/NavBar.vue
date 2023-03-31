@@ -1,9 +1,9 @@
 <template>
   <div class="navbar">
       <nav>
-        <img src="@/assets/ninjabox.svg" alt="">
+        <img src="@/assets/jockey.png" alt="">
         <h3>
-         <router-link :to="{name: 'home'}">Muso Ninjas</router-link>
+         <router-link :to="{name: 'home'}">Song Plat</router-link>
         </h3>
         <div class="links">
             <div v-if="user">
